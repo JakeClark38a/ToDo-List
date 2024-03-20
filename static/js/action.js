@@ -2,13 +2,7 @@ const close_button = document.getElementById('close-bt');
 const cancle_button = document.getElementById('cancle-bt');
 const modal_container = document.getElementById('modal-container');
 //  thiết lập chiều dài bằng chiều rộng khi chiều rộng là biến thiên 
-        // đặt id-a0001 là biến x
-        const x = document.getElementById('a0001');
-        // Lấy chiều cao div  id-0001
-        const y = x.clientHeight ;
-        // Thiết lập chiều rộng của nút id-a0002 bằng chiều cao của div id-0001r
-        document.getElementById('a0001').style.width = y + 'px';
-        document.getElementById('a0001').style.height = y + 'px';
+        
 
         //tương tự với id-a0002
         
