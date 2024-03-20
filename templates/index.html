@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo Form</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .todo {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .todo button {
+        margin-left: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Create Todo</h2>
+<form id="todoForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required><br>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4" required></textarea><br>
+    
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required><br>
+    
+    <label for="tag">Tag:</label>
+    <input type="text" id="tag" name="tag"><br>
+    
+    <button type="submit">Submit</button>
+</form>
+
+<button id="displayTodos">Display Todos</button>
+<div id="todoList"></div>
+
+<script>
+$(document).ready(function(){
+    $('#todoForm').submit(function(e){
+        e.preventDefault(); // prevent the form from submitting
+        
+        // Get form values
+        var title = $('#title').val();
+        var description = $('#description').val();
+        var date = $('#date').val();
+        var tag = $('#tag').val();
+        
+        // Create todo object
+        var todoItem = {
+            title: title,
+            description: description,
+            date: date,
+            tag: tag
+        };
+        
+        // Get existing todos from localStorage
+        var todos = JSON.parse(localStorage.getItem('todos')) || [];
+        
+        // Add new todo to array
+        todos.push(todoItem);
+        
+        // Store updated todos in localStorage
+        localStorage.setItem('todos', JSON.stringify(todos));
+        
+        // Clear form fields
+        $('#title').val('');
+        $('#description').val('');
+        $('#date').val('');
+        $('#tag').val('');
+        
+        alert('Todo created successfully!');
+    });
+    
+    $('#displayTodos').click(function(){
+        // Get todos from localStorage
+        var todos = JSON.parse(localStorage.getItem('todos')) || [];
+        
+        // Display todos
+        var todoList = $('#todoList');
+        todoList.empty(); // Clear previous todos
+        
+        if(todos.length > 0){
+            todoList.append('<h2>Todos</h2>');
+            todos.forEach(function(todo, index){
+                var todoElement = $('<div class="todo"><strong>Title:</strong> ' + todo.title + '<br>' +
+                                    '<strong>Description:</strong> ' + todo.description + '<br>' +
+                                    '<strong>Date:</strong> ' + todo.date + '<br>' +
+                                    '<strong>Tag:</strong> ' + todo.tag + '<br>' +
+                                    '<button class="editTodo" data-index="' + index + '">Edit</button>' +
+                                    '<button class="deleteTodo" data-index="' + index + '">Delete</button></div>');
+                todoList.append(todoElement);
+            });
+        } else {
+            todoList.append('<p>No todos found.</p>');
+        }
+    });
+    
+    // Edit todo
+    $(document).on('click', '.editTodo', function(){
+        var index = $(this).data('index');
+        var todos = JSON.parse(localStorage.getItem('todos')) || [];
+        var todo = todos[index];
+        
+        $('#title').val(todo.title);
+        $('#description').val(todo.description);
+        $('#date').val(todo.date);
+        $('#tag').val(todo.tag);
+        
+        // Remove the edited todo from localStorage
+        todos.splice(index, 1);
+        localStorage.setItem('todos', JSON.stringify(todos));
+    });
+    
+    // Delete todo
+    $(document).on('click', '.deleteTodo', function(){
+        var index = $(this).data('index');
+        var todos = JSON.parse(localStorage.getItem('todos')) || [];
+        
+        todos.splice(index, 1);
+        localStorage.setItem('todos', JSON.stringify(todos));
+        
+        // Refresh the displayed todos
+        $('#displayTodos').click();
+    });
+});
+</script>
+
+</body>
+</html>
