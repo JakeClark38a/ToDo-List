@@ -31,9 +31,9 @@ async function findIndexOfCarouselItem (){
   // }
   // console.log(index);
   // return index;
-  await sleep(500);
-  console.log($('[data-carousel-item]').index($(".translate-x-0")));
-  console.log(typeof($('[data-carousel-item]').index($(".translate-x-0"))));
+  await sleep(100);
+  // console.log($('[data-carousel-item]').index($(".translate-x-0")));
+  // console.log(typeof($('[data-carousel-item]').index($(".translate-x-0"))));
   return $('[data-carousel-item]').index($(".translate-x-0"));
 }
 
