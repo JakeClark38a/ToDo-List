@@ -8,23 +8,65 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Link to TailwindCSS main css file, in the future href will change to {{url_for('static', filename='css/main.css')}} -->
     <link rel="stylesheet" href="../static/css/main.css">
-    <script src="../static/js/app.js"></script>
+    <!-- <script src="../dist/bundle.js"></script> -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </head>
 <style>
 </style>
 <body class="*:m-0 *:p-0 *:box-border">
     <div class="relative w-full h-[100vh] bg-gradient-to-t from-cyan-200 from-0% via-cyan-50 via-70% to-white to-100%">
-        
+        <!--Begin header-->
+        <div class="p-3">
+            <div class="border-2 rounded-xl border-accent-red">
+                <div class="flex justify-between items-center">
+                    <div class="flex justify-evenly items-center p-2 gap-2">
+
+                        <div id="dropMenuClick" class="headbar-button overflow-hidden" isOpen="false">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                    d="M5 7h14M5 12h14M5 17h14" />
+                            </svg>
+                        </div>
+
+                        <div class="flex flex-col justify-center items-start">
+                            <div>JakeClark Proj</div>
+                            <div>List: 99%</div>
+                        </div>
+
+                    </div>
+                    <div class="flex justify-end items-center p-2 gap-2">
+                        <div class="headbar-button">
+                            <img class=""
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJklEQVR4nO2YQUrEQBBFX+eWYsZruC1dudBZKQh6kzmSK/UAJUItQpjOrHrodP0HBQkJpOt3VX06IIQQQgghxLUpwC1wE9epKMAb4BGfwETS5D2TCKWSfAoRyoXkhxahAO+rRL8q1x7vlpF3/gN4WNwb8DpiJZRK8lMkvRSgjCjCy0ZprwWotcqRHfO70dfnBDgnwjc75hH4iUpYD7WaAMS7zyHg+tkw2IYAKTAJgCrA1QJoBriGIHIBIyEmF0Au4HIB5AIuF0AuYCTEsrvAYSHATEKmSHze+4/PNExRtodOd6z5+u4WPfv/kd5ovj7rfGo3X59JAFQBrhZAM8A1BJELGMlt8ATcdxanawrgnYe1Pr565zG3PL4+dR46XgshhBBCCC7zB9eCREG4l8/PAAAAAElFTkSuQmCC">
+                        </div>
+                        <div class="headbar-button">
+                            <img
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAPElEQVR4nGNgGAWjYBQMT+DNwMDwhIGB4TEDA4MnBeI4AUjhfyh+RIH4wFngCdUEUuxBgfgoGAWjYNgAAIMDJKaeed9aAAAAAElFTkSuQmCC">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End header-->
         <!-- Main List -->
         <div id="controls-carousel" class="relative w-full" data-carousel="static">
+            <!-- Header -->
+            <div class="relative">
+                <div id="carousel-title" class="flex justify-center items-end w-[100%] text-center align-bottom h-[40px]">
+                    Do
+                </div>
+                <hr id="carousel-hr" class="bg-primary-red w-[120%] h-1  border-none">
+            </div>
             <!-- Carousel wrapper -->
-            <div class="relative h-[50vh] mt-[3vh] overflow-hidden">
+            <div id="carousel-wrapper" class="relative h-[50vh] mt-[3vh] overflow-hidden">
                  <!-- Item 1 -->
                 <!-- <div class="hidden duration-700 ease-in-out" data-carousel-item>
                     <img src="../static/images/calendar_icon.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div> -->
-                <div class="hidden ease-in-out duration-700 pink task-container border-primary-red" data-carousel-item="active">
+                <div id="carousel-item-1" class="hidden ease-in-out duration-700 pink task-container border-primary-red" data-carousel-item="active">
                     <!-- Contents -->
                     <div class="task-content-container border-primary-red">
                         <div>
@@ -37,7 +79,7 @@
                     </div>
                 </div>
                 <!-- Item 2 -->
-                <div class="hidden ease-in-out duration-700 green task-container border-primary-green" data-carousel-item>
+                <div id="carousel-item-2" class="hidden ease-in-out duration-700 green task-container border-primary-green" data-carousel-item>
                     <!-- Contents -->
                     <div class="task-content-container border-primary-green">
                         <div>
@@ -50,7 +92,7 @@
                     </div>
                 </div>
                 <!-- Item 3 -->
-                <div class="hidden ease-in-out duration-700 blue task-container border-primary-blue" data-carousel-item>
+                <div id="carousel-item-3" class="hidden ease-in-out duration-700 blue task-container border-primary-blue" data-carousel-item>
                     <!-- Contents -->
                     <div class="task-content-container border-primary-blue">
                         <div>
@@ -63,7 +105,7 @@
                     </div>
                 </div>
                 <!-- Item 4 -->
-                <div class="hidden ease-in-out duration-700 yellow task-container border-primary-yellow" data-carousel-item>
+                <div id="carousel-item-4" class="hidden ease-in-out duration-700 yellow task-container border-primary-yellow" data-carousel-item>
                     <!-- Contents -->
                     <div class="task-content-container border-primary-yellow">
                         <div>
@@ -84,7 +126,7 @@
                 <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
             </div>
             <!-- Slider controls -->
-            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+            <button type="button" class="absolute top-0 start-0 z-30 flex items-start justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
@@ -92,7 +134,7 @@
                     <span class="sr-only">Previous</span>
                 </span>
             </button>
-            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+            <button type="button" class="absolute top-0 end-0 z-30 flex items-start justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-gray-800/70 group-focus:outline-none">
                     <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
@@ -154,6 +196,6 @@
     </div>
     <!-- phần java thêm cho đỡ mệt -->
     <script src="../static/js/action.js"></script>
-    
+    <script src="../static/js/app.js"></script>
 </body>
 </html>
