@@ -8,10 +8,7 @@ $(document).ready(function () {
   function MainMenuTagTempplate(id, tagName) {
     return (
       `
-    
-    <div id="` +
-      id +
-      `" class="MMenu-Tag flex items-center pl-5 hover:bg-gradient-to-r from-shade_yellow-600 to-transparent  cursor-pointer">
+    <div id="${id}" class="MMenu-Tag flex items-center pl-5 hover:bg-gradient-to-r from-shade_yellow-600 to-transparent  cursor-pointer">
     <div class="h-full">
         <svg class="w-full h-full text-gray-800 dark:text-white" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -20,27 +17,17 @@ $(document).ready(function () {
         </svg>
     </div>
 
-    <div class="text-lg px-1 my-1 center">` +
-      tagName +
-      `</div>
-
-</div>
-
-`
+    <div class="text-lg px-1 my-1 center">${tagName}</div>`
     );
   }
   function MainMenuGroupTemplates(id, title) {
     return (
       `
   
-  <div id="` +
-      id +
-      `" class="hover:bg-gradient-to-r from-shade_yellow-500 to-transparent"><!--block-->
+  <div id="${id}" class="hover:bg-gradient-to-r from-shade_yellow-500 to-transparent"><!--block-->
     <!-- Greeting div, status centered -->
     <div class="flex justify-between items-center mx-2 *:mx-2">
-        <div class="text-xl  ">` +
-      title +
-      `</div>
+        <div class="text-xl  ">${title}</div>
 
         <div class="MMenu-Tag-Add">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -176,20 +163,14 @@ $(document).ready(function () {
     if (mode == 0) {
       return (
         ` 
-    <div id="` +
-        id +
-        `" class=" task-outer">
+    <div id="${id}" class=" task-outer">
       <div class=" rounded-lg h-20 border-2 border-slate-700">
           <div class=" px-2 flex justify-between border-b-2 border-slate-700">
-              <div class="font-bold">` +
-        title +
-        `</div>
+              <div class="font-bold">${title}</div>
               <button id="Task-Cancel" class="text-red-500 font-bold">X</button>
           </div>
           <div class="p-2 flex justify-between items-center">
-              <div class="text-center">End: ` +
-        dl +
-        `</div>
+              <div class="text-center">End: ${dl}</div>
               <input id="Task-Destroyer" type="checkbox" id="checkbox_task"
                   class="h-8 w-8 rounded-md border-2 border-shade_red-800 ">
           </div>
@@ -201,9 +182,7 @@ $(document).ready(function () {
     } else if (mode == 1) {
       return (
         `
-      <div  id="` +
-        id +
-        `" class="w-full h-20 bg-red-500">sdsd</div>
+      <div  id="${id}" class="w-full h-20 bg-red-500">sdsd</div>
       `
       );
     }
@@ -213,12 +192,8 @@ $(document).ready(function () {
     if (mode == 0) {
       return (
         `
-    <div id="` +
-        id +
-        `" class="overflow-y-auto bg-transparent border-t-8 border-b-4 border-l-2 border-r-2 border-shade_green-300 w-64 h-64 p-1 rounded-xl md:w-72 md:h-72 lg:w-80 lg:h-80">
-        <div id="Task-Group-Title" class="todobox-title">` +
-        title +
-        `</div>
+    <div id="${id}" class="overflow-y-auto bg-transparent border-t-8 border-b-4 border-l-2 border-r-2 border-shade_green-300 w-64 h-64 p-1 rounded-xl md:w-72 md:h-72 lg:w-80 lg:h-80">
+        <div id="Task-Group-Title" class="todobox-title">${title}</div>
         <div id="Task-Section" class="p-3 flex flex-col gap-3">
             <!--task here-->
         </div>
@@ -231,12 +206,8 @@ $(document).ready(function () {
         `
       <!-- Item  -->
 
-      <div id="` +
-        id +
-        `" data-carousel-item="active" class="flex flex-col items-center overflow-x-hidden ease-in-out duration-700 pink z-0">
-      <div id="Task-Group-Title" class="text-center">` +
-        title +
-        `</div>
+      <div id="${id}" data-carousel-item="active" class="flex flex-col items-center overflow-x-hidden ease-in-out duration-700 pink z-0">
+      <div id="Task-Group-Title" class="text-center">${title}</div>
       <div id="" class="Task-Section border-primary-red w-80 h-96 " >
           <!-- Contents -->
         
@@ -553,23 +524,23 @@ $(document).ready(function () {
   });
 
   // When user clicked at list item, it will add tag to the task and also close dropdown
-  $("#dropdown ul").on("click", "li", function () {
-    // Add tag to the task
-    $("#add-tag-bt").text($(this).text());
-    // Close dropdown
-    $("#dropdown").removeClass("block");
-    $("#dropdown").addClass("hidden");
-  });
+  // $("#dropdown ul").on("click", "li", function () {
+  //   // Add tag to the task
+  //   $("#add-tag-bt").text($(this).text());
+  //   // Close dropdown
+  //   $("#dropdown").removeClass("block");
+  //   $("#dropdown").addClass("hidden");
+  // });
 
-  $("#Calendar-Container").hide();
-  $("#Main-Screen").show();
-  $("#MMenu-Calendar").click(function () {
-    $("#Calendar-Container").show();
-    $("#Main-Screen").hide();
-  });
-  $("#MMenu-Today").click(function () {
-    $("#Calendar-Container").hide();
-    $("#Main-Screen").show();
-  });
+  // $("#Calendar-Container").hide();
+  // $("#Main-Screen").show();
+  // $("#MMenu-Calendar").click(function () {
+  //   $("#Calendar-Container").show();
+  //   $("#Main-Screen").hide();
+  // });
+  // $("#MMenu-Today").click(function () {
+  //   $("#Calendar-Container").hide();
+  //   $("#Main-Screen").show();
+  // });
 });
 // End of app.js
