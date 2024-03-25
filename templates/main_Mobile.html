@@ -317,7 +317,7 @@
             // options with default values
             const options = {
                 // placement: 'bottom-right',
-                backdrop: 'dynamic',
+                backdrop: 'static',
                 backdropClasses:
                     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
                 closable: true,
@@ -346,8 +346,8 @@
                     inertia: true,
                     // keep the element within the area of it's parent
                     modifiers: [
-                    interact.modifiers.restrictRect({
-                        restriction: "#Main-Formatter",
+                    interact.modifiers.restrict({
+                        restriction: "parent",
                         endOnly: true
                     })
                     ],
@@ -360,7 +360,7 @@
                     }
                 })
                 .on('tap', function (event) {
-                    modal.toggle();
+                    modal.show();
                     event.preventDefault();
                 })
             });
