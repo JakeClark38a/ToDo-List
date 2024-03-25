@@ -317,7 +317,7 @@
             // options with default values
             const options = {
                 // placement: 'bottom-right',
-                backdrop: 'static',
+                backdrop: 'dynamic',
                 backdropClasses:
                     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
                 closable: true,
@@ -348,6 +348,7 @@
                     modifiers: [
                     interact.modifiers.restrict({
                         restriction: "parent",
+                        elementRect: {top: 0, left: 0, bottom: 0.1, right: 0.1},
                         endOnly: true
                     })
                     ],
