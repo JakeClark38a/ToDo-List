@@ -90,7 +90,7 @@
                 title: "Meeting",
                 description: "about making a website",
                 tag: "tag1",
-                deadline: 62783,
+                deadline: "2014-01-02T11:42",
                 points: 4,
             },
             id002: {
@@ -338,8 +338,28 @@
     }
     // Loads the main screen with groups and tasks.
     function LoadMainScreen() {
+        // Also add Draggable button again
+        $("#Main-Screen").append($(`
+        <!-- add question action button here-->
+        <div id="add-draggable"  class="">
+            <div  class="touch-none select-none">
+                <div id="moveButton" 
+                    class="hover:w-14 hover:h-14 border-2 border-shade_green-600 shadow-xl absolute rounded-full w-12 h-12 bg-gradient-to-bl from-shade_green-500 to-shade_red-500 p-2">
+                    <svg class="w-full h-full text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 12h14m-7 7V5" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <!-- kết thúc phần nút -->
+        `))
+
         var formatter_html = $("#Main-Screen").append(genFormatterTemplate());
         // Assuming genGroupTemplate and genTaskTemplate functions are defined elsewhere
+
+        
 
         // Iterate over groups
         for (var groupId in Dict.groups) {
@@ -435,6 +455,28 @@
 
     // website events
 
+    // My work at U in CRUD modal
+    $('div[id^="id"]').click(function(){
+        let id = $(this).attr("id");
+        let title = Dict.tasks[id].title;
+        let desc = Dict.tasks[id].description;
+        let tag = Dict.tasks[id].tag;
+        let expired = Dict.tasks[id].deadline;
+        console.log(id, desc);
+        $('#crud-modal').find("#name").val(title);
+        $('#crud-modal').find("#description").text(desc);
+        $('#crud-modal').find(`#tags option[value="${tag}"]`).attr("selected", title);
+        $('#crud-modal').find("#todo-expired").val(expired);
+        $('#crud-modal button[type="submit"]').text("Edit");
+        modal.show();
+    })
+
+    // Submit button
+    $('#crud-modal form').on("submit", function(e){
+        e.preventDefault();
+        alert("Submitted");
+    })
+
     // Remove it!
     addtask_btn.addEventListener("click", function() {
         var title = document.getElementById("Add-Task-Title");
@@ -459,6 +501,7 @@
         close();
     });
 
+    
 
 
     // My work at adding tags
