@@ -40,11 +40,11 @@
                     <div class="grid gap-4 mb-4 grid-cols-2">
                         <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type todo title" required="">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type todo title" required="" maxlength="128">
                         </div>
                         <div class="col-span-2">
                             <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task Description</label>
-                            <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Write task description here"></textarea>                    
+                            <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Write task description here" maxlength="256"></textarea>                    
                         </div>
                         <div class="col-span-2">
                             <label for="todo-expired" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expired Time</label>
@@ -59,6 +59,8 @@
                         </div>
                         
                     </div>
+                    <!-- Honeypot for Form Anti-spam, also holding task ID https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam (TODO: Remove this link when production) -->
+                    <input type="checkbox" name="contact_me_by_phone_number" id="task_" value="1" class="!hidden" autocomplete="off" tabindex="-1">
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                         Create
@@ -270,20 +272,7 @@
 
         <!--Begin Main screen-->
         <div id="Main-Screen" class="Container bg-transparent">
-            <!-- add question action button here-->
-            <div id="add-draggable"  class="">
-                <div  class="touch-none select-none">
-                    <div id="moveButton" 
-                        class="hover:w-14 hover:h-14 border-2 border-shade_green-600 shadow-xl absolute rounded-full w-12 h-12 bg-gradient-to-bl from-shade_green-500 to-shade_red-500 p-2">
-                        <svg class="w-full h-full text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 12h14m-7 7V5" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <!-- kết thúc phần nút -->
+            <!-- Dynamic draggable button here -->
             <!--Formatter-->
         </div>
         <!--End Main screen-->
@@ -324,6 +313,24 @@
                     console.log('modal is hidden');
                 },
                 onShow: () => {
+                    // Limit the date picker to today and future dates
+                    // Get the current date and time
+                    const now = new Date();
+
+                    // Format the date and time as required by the min attribute
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so we add 1
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const hour = String(now.getHours()).padStart(2, '0');
+                    const minute = String(now.getMinutes()).padStart(2, '0');
+
+                    // Construct the string for the min attribute
+                    const minDatetime = `${year}-${month}-${day}T${hour}:${minute}`;
+
+                    // Set the min attribute of the input element
+                    document.getElementById('todo-expired').setAttribute('min', minDatetime);
+                    // Set value to current date and time
+                    document.getElementById('todo-expired').value = minDatetime;
                     console.log('modal is shown');
                 },
                 onToggle: () => {
@@ -361,16 +368,24 @@
                     }
                 })
                 .on('tap', function (event) {
+                    event.preventDefault();
                     // Clean modal first
-                    $('#crud-modal').find("#name").val("");
-                    $('#crud-modal').find("#description").text("");
-                    $('#crud-modal').find(`#tags option`).removeAttr("selected");
-                    $('#crud-modal').find("#todo-expired").val("");
+                    $('#crud-modal label[for="name"]').text("Title");
+                    $('#crud-modal label[for="description"]').text("Task Description");
+
+                    $('#crud-modal h3').text("Create Task");
+                    $('#crud-modal #name').val("");
+                    $('#crud-modal #description').val("");
+                    $('#crud-modal #tags option').removeAttr("selected");
+                    $('#crud-modal #todo-expired').val("");
                     $('#crud-modal button[type="submit"]').html(`
                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                         Create`);
+                    $('#crud-modal input[type="checkbox"]').attr("id", `task_`);
+                    
+                    // Show modal
                     modal.show();
-                    event.preventDefault();
+                    
                 })
             });
 

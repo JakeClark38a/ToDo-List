@@ -463,43 +463,139 @@
         let tag = Dict.tasks[id].tag;
         let expired = Dict.tasks[id].deadline;
         console.log(id, desc);
-        $('#crud-modal').find("#name").val(title);
-        $('#crud-modal').find("#description").text(desc);
+        // Clean up
+        // Clean modal first
+        $('#crud-modal label[for="name"]').text("Title");
+        $('#crud-modal label[for="description"]').text("Task Description");
+        // Change task header
+        $('#crud-modal h3').text("Edit Task");
+        // Change input to task details
+        $('#crud-modal #name').val(title);
+        $('#crud-modal #description').val(desc);
         $('#crud-modal').find(`#tags option[value="${tag}"]`).attr("selected", title);
-        $('#crud-modal').find("#todo-expired").val(expired);
+        $('#crud-modal #todo-expired').val(expired);
         $('#crud-modal button[type="submit"]').text("Edit");
+        // Change honeypot to id
+        $('#crud-modal input[type="checkbox"]').attr("id", `task_${id}`);
+        // Get current date
+        let current_date = new Date();
+        // Get date input
+        let date_element = $('#crud-modal #todo-expired');
+        // Get input date
+        let input_date = new Date(date_element.val());
+        // If input date is less than current date, show alert
+        if (input_date < current_date){
+            date_element.css("border", "2px solid red");
+        }
+        else {
+            date_element.css("border", "2px solid green");
+        }
+        // Show modal
         modal.show();
+    })
+
+    // My work at adding limitation on typing Create - Edit modal
+    $("#crud-modal").on("input", "#name, #description", function(){
+        // Take current input length
+        let input_length = $(this).val().length;
+        // Take input limitation
+        let input_limit = $(this).attr("maxlength");
+        // If length > 0, show this length and limitation at the same place in label
+        if (input_length > 0){
+            // Update length and limit
+            $(this).prev().text(function(e, text){
+                let label_content = text.split(" ");
+                // Remove old length and limit (element that starts with "(" and ends with ")")
+                label_content = label_content.filter(e => !e.startsWith("(") && !e.endsWith(")"));
+                // Join new length and limit
+                label_content.push(`(${input_length}/${input_limit})`);
+                return label_content.join(" ");
+            })
+        }
+        else {
+            // Update length and limit
+            $(this).prev().text(function(e, text){
+                let label_content = text.split(" ");
+                // Remove old length and limit (element that starts with "(" and ends with ")")
+                label_content = label_content.filter(e => !e.startsWith("(") && !e.endsWith(")"));
+                // Join just title
+                return label_content.join(" ");
+            })
+        }
+    })
+    // And also checking for expired date
+    $("#crud-modal").on("input", "#todo-expired", function(){
+        // Get current date
+        let current_date = new Date();
+        // Get input date
+        let input_date = new Date($(this).val());
+        // If input date is less than current date, show alert
+        if (input_date < current_date){
+            $(this).css("border", "2px solid red");
+        }
+        else {
+            $(this).css("border", "2px solid green");
+        }
     })
 
     // Submit button
     $('#crud-modal form').on("submit", function(e){
         e.preventDefault();
+        // Get id from honeypot, if id is empty string, it means it's a new task
+        let id = $('#crud-modal input[type="checkbox"]').attr("id").split("_")[1];
+        // Get all input
+        let title = $('#crud-modal #name').val();
+        let desc = $('#crud-modal #description').val();
+        let tag = $('#crud-modal #tags').val();
+        let expired = $('#crud-modal #todo-expired').val();
+        console.log(id, title, desc, tag, expired);
+        // Before updatind Dict, check if tag is empty
+        if (id == ""){
+            // Adding a new task to the tasks object within Dict
+            Dict.tasks[getUuid()] = {
+                title: title,
+                description: desc,
+                tag: tag,
+                deadline: expired,
+                points: 4,
+            };
+        }
+        else {
+            // Update Dict
+            Dict.tasks[id].title = title;
+            Dict.tasks[id].description = desc;
+            Dict.tasks[id].tag = tag;
+            Dict.tasks[id].deadline = expired;
+        }
         alert("Submitted");
+        RefreshMainScreen();
+        modal.hide();
+        // window.location = window.location;
     })
 
-    // Remove it!
-    addtask_btn.addEventListener("click", function() {
-        var title = document.getElementById("Add-Task-Title");
-        var desc = document.getElementById("Add-Task-Desc");
-        var tag_ = document.getElementById("add-tag-bt").innerText;
-        if (title.value == "" || tag_ == "") {
-            console.log("Empty task is not valid");
-            return;
-        }
-        console.log(title.value, desc.value, tag_);
-        // Adding a new task to the tasks object within Dict
-        Dict.tasks[getUuid()] = {
-            title: title.value,
-            description: desc.value,
-            tag: tag_,
-            deadline: 62783,
-            points: 4,
-        };
-        console.log(Dict.tasks);
-        // Assuming RefreshMainScreen function is properly defined and accessible
-        RefreshMainScreen();
-        close();
-    });
+    // Remove it! Completed!
+    // addtask_btn.addEventListener("click", function() {
+    //     var title = document.getElementById("Add-Task-Title");
+    //     var desc = document.getElementById("Add-Task-Desc");
+    //     var tag_ = document.getElementById("add-tag-bt").innerText;
+    //     if (title.value == "" || tag_ == "") {
+    //         console.log("Empty task is not valid");
+    //         return;
+    //     }
+    //     console.log(title.value, desc.value, tag_);
+    //     // Adding a new task to the tasks object within Dict
+    //     Dict.tasks[getUuid()] = {
+    //         title: title.value,
+    //         description: desc.value,
+    //         tag: tag_,
+    //         deadline: 62783,
+    //         points: 4,
+    //     };
+    //     console.log(Dict.tasks);
+    //     // Assuming RefreshMainScreen function is properly defined and accessible
+    //     RefreshMainScreen();
+    //     close();
+    // });
 
     
 
