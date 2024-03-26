@@ -308,7 +308,9 @@
     }
     // Renders a task on the main screen.
     function renderTaskMainScreen(task_html, task, id, mode) {
-        var temp = genTaskTemplate(id, task.title, "17:00 PM", mode); // Assuming genTaskTemplate function is defined elsewhere
+        let endDate = new Date(task.deadline);
+        let locale = "vi";
+        var temp = genTaskTemplate(id, task.title, `${endDate.toLocaleDateString(locale)} ${endDate.toLocaleTimeString(locale)}`, mode); // Assuming genTaskTemplate function is defined elsewhere
         var t = task_html.append(temp);
 
         //Remove task
@@ -321,13 +323,14 @@
         });
 
         //Complete task
-        t.find("#Task-Destroyer").click(function() {
+        t.find("#Task-Destroyer").click(function(e) {
             // Get the HTML id of the task
             var taskId = $(this).closest(".task-outer").attr("id");
             Dict.tasks[taskId] = "";
             Dict.completed[taskId] = Dict.tasks[taskId];
             console.log(Dict.completed);
             setTimeout(RefreshMainScreen, 1000);
+            e.stopPropagation();
         });
     }
     // Renders a group on the main screen.
@@ -456,7 +459,7 @@
     // website events
 
     // My work at U in CRUD modal
-    $('div[id^="id"]').click(function(){
+    $('#Main-Screen').on("click", ".task-outer", function(e){
         let id = $(this).attr("id");
         let title = Dict.tasks[id].title;
         let desc = Dict.tasks[id].description;
@@ -492,6 +495,7 @@
         }
         // Show modal
         modal.show();
+        e.stopPropagation();
     })
 
     // My work at adding limitation on typing Create - Edit modal
