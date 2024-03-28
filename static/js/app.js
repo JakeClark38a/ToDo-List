@@ -639,6 +639,23 @@ $(document).ready(function () {
       console.log(id, title, desc, tag, expired);
       // Before updatind Dict, check if tag is empty
       if (id == ""){
+        console.log(JSON.stringify({
+          title: title,
+          description: desc,
+          tag: tag,
+          deadline: expired,
+          points: 4,
+      }));
+          // Request create to server with POST method at /todo/create, also package the data into JSON
+          $.post("/todo/create", {
+              title: title,
+              description: desc,
+              tag: tag,
+              deadline: expired,
+              points: 4,
+          }, function(data){
+              console.log(data);
+          })
           // Adding a new task to the tasks object within Dict
           Dict.tasks[getUuid()] = {
               title: title,
@@ -649,6 +666,16 @@ $(document).ready(function () {
           };
       }
       else {
+        $.post("/todo/edit", {
+            id: id,
+            title: title,
+            description: desc,
+            tag: tag,
+            deadline: expired,
+            points: 4,
+        }, function(data){
+            console.log(data);
+        })
           // Update Dict
           Dict.tasks[id].title = title;
           Dict.tasks[id].description = desc;
